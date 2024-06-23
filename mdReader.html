@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="UTF-8" />
+<script src = "https://lib.baomitu.com/marked/latest/marked.min.js"></script>
+<script>  
+    document.addEventListener('DOMContentLoaded', function() {  
+        var urlParams = new URLSearchParams(window.location.search);  
+        var mdPath = urlParams.get('mdPath');  
+        console.log("mdPath: "+mdPath);
+        if (mdPath) {  
+            fetch(mdPath)  
+                .then(response => response.text())  
+                .then(markdownContent => {  
+                    var area = document.getElementById("content");  
+                    if (area) {  
+                        area.value = markdownContent;  
+                        var display = document.createElement('div');  
+                        display.innerHTML = marked.parse(markdownContent);  
+                        document.body.appendChild(display);  
+                    }  
+                })  
+                .catch(error => console.error('Error fetching Markdown:', error));  
+        }  
+    });  
+    </script>  
+</head><body><textarea id = "content" hidden="true"> 
