@@ -1,25 +1,42 @@
 <!doctype html>
-<html><head><meta charset="UTF-8" />
-<script src = "https://lib.baomitu.com/marked/latest/marked.min.js"></script>
-<script>  
-    document.addEventListener('DOMContentLoaded', function() {  
-        var urlParams = new URLSearchParams(window.location.search);  
-        var mdPath = urlParams.get('mdPath');  
-        console.log("mdPath: "+mdPath);
-        if (mdPath) {  
-            fetch(mdPath)  
-                .then(response => response.text())  
-                .then(markdownContent => {  
-                    var area = document.getElementById("content");  
-                    if (area) {  
-                        area.value = markdownContent;  
-                        var display = document.createElement('div');  
-                        display.innerHTML = marked.parse(markdownContent);  
-                        document.body.appendChild(display);  
-                    }  
-                })  
-                .catch(error => console.error('Error fetching Markdown:', error));  
-        }  
-    });  
-    </script>  
-</head><body><textarea id = "content" hidden="true"> 
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://lib.baomitu.com/marked/latest/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var mdPath = urlParams.get('mdPath');
+            console.log("mdPath: " + mdPath);
+            var getSourceMdLink = document.getElementById("getSourceMd");  
+            if (mdPath) {  
+                // 注意：这里假设mdPath是一个可以直接访问的URL  
+                getSourceMdLink.href = mdPath;  
+                getSourceMdLink.text = "获取源md文件"; // 确保链接文本显示正确  
+            } else {  
+                // 如果没有mdPath，可以设置一个默认的或占位符的链接  
+                getSourceMdLink.href = "#";  
+                getSourceMdLink.text = "没有可用的源md文件";  
+            }  
+            if (mdPath) {
+                fetch(mdPath)
+                    .then(response => response.text())
+                    .then(markdownContent => {
+                        var area = document.getElementById("content");
+                        if (area) {
+                            area.value = markdownContent;
+                            var display = document.createElement('div');
+                            display.innerHTML = marked.parse(markdownContent);
+                            document.body.appendChild(display);
+                        }
+                    })
+                    .catch(error => console.error('Error fetching Markdown:', error));
+            }
+        });  
+    </script>
+</head>
+
+<body>
+    <h1><a href="" id="getSourceMd" target="_blank">获取源md文件</a></h1>
+    <textarea id="content" hidden="true">
